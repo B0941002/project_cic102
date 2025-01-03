@@ -1147,6 +1147,10 @@ data:
         listen 80;
         server_name _;
 
+        location /health {
+          return 200 'OK';
+        }
+
         location /console/api {
           proxy_pass http://dify-api:5001;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
