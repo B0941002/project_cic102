@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dify-ingress
+  namespace: dify
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/load-balancer-name: cic102-29-alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: subnet-0acf09e03c6aa23c6, subnet-05c28cc5b26207ec9
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dify-nginx
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: dify-nginx
+                port:
+                  number: 80
+          - path: /console/api
+            pathType: Prefix
+            backend:
+              service:
+                name: dify-nginx
+                port:
+                  number: 80
+          - path: /v1
+            pathType: Prefix
+            backend:
+              service:
+                name: dify-nginx
+                port:
+                  number: 80
+          - path: /files
+            pathType: Prefix
+            backend:
+              service:
+                name: dify-nginx
+                port:
+                  number: 80
+  tls:
+    - secretName: dify-tls
