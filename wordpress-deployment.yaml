@@ -7,6 +7,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wordpress
+  namespace: wordpress
   labels:
     app: wordpress
 spec:
@@ -42,6 +43,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
+  namespace: wordpress
 spec:
   replicas: 1
   selector:
@@ -70,6 +72,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wordpress-service
+  namespace: wordpress
 spec:
   type: LoadBalancer
   ports:
@@ -82,6 +85,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql-service
+  namespace: wordpress
 spec:
   ports:
     - port: 3306
@@ -93,6 +97,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: wordpress-pvc
+  namespace: wordpress
 spec:
   accessModes:
     - ReadWriteOnce
