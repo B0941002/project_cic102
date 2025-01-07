@@ -147,7 +147,7 @@ spec:
           mountPath: /mnt/data
       volumes:
       - name: persistent-storage
-        persistentvolumeClaim:
+        persistentVolumeClaim:
           claimName: efs-claim
 ---
 apiVersion: v1
@@ -259,7 +259,7 @@ spec:
           mountPath: /mnt/data
       volumes:
       - name: persistent-storage
-        persistentvolumeClaim:
+        persistentVolumeClaim:
           claimName: efs-claim
 ---
 apiVersion: v1
@@ -345,7 +345,7 @@ spec:
       serviceAccountName: dify-weaviate
       volumes:
       - name: persistent-storage
-        persistentvolumeClaim:
+        persistentVolumeClaim:
           claimName: efs-claim
       containers:
       - name: dify-weaviate
@@ -695,7 +695,7 @@ spec:
         kubernetes.io/os: linux
       volumes:
       - name: persistent-storage
-        persistentvolumeClaim:
+        persistentVolumeClaim:
           claimName: efs-claim
       containers:
       - name: dify-api
@@ -895,7 +895,7 @@ spec:
         kubernetes.io/os: linux
       volumes:
       - name: persistent-storage
-        persistentvolumeClaim:
+        persistentVolumeClaim:
           claimName: efs-claim
       containers:
       - name: dify-worker
