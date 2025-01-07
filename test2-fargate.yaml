@@ -37,8 +37,12 @@ metadata:
   name: nginx-fargate-pod
   namespace: test2-fargate
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
-    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/load-balancer-name: cic102-29-alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: subnet-0acf09e03c6aa23c6, subnet-05c28cc5b26207ec9
 spec:
   selector:
     app: nginx-fargate-pod
