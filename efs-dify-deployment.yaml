@@ -143,11 +143,12 @@ spec:
         - containerPort: 5432
           name: postgres-port
         volumeMounts:
-        - name: postgres-data
-          mountPath: /var/lib/postgresql/data
+        - name: persistent-storage
+          mountPath: /data
       volumes:
-      - name: postgres-data
-        emptyDir: {}
+      - name: persistent-storage
+        persistentvolumeClaim:
+          claimName: efs-claim
 ---
 apiVersion: v1
 kind: Service
@@ -254,11 +255,12 @@ spec:
             - redis-cli
             - ping
         volumeMounts:
-        - name: redis-data
+        - name: persistent-storage
           mountPath: /data
       volumes:
-      - name: redis-data
-        emptyDir: {}
+      - name: persistent-storage
+        persistentvolumeClaim:
+          claimName: efs-claim
 ---
 apiVersion: v1
 kind: Service
@@ -342,8 +344,9 @@ spec:
         kubernetes.io/os: linux
       serviceAccountName: dify-weaviate
       volumes:
-      - name: weaviate-data
-        emptyDir: {}
+      - name: persistent-storage
+        persistentvolumeClaim:
+          claimName: efs-claim
       containers:
       - name: dify-weaviate
         image: semitechnologies/weaviate:1.19.0
@@ -377,8 +380,8 @@ spec:
         - name: "AUTHORIZATION_ADMINLIST_USERS"
           value: "hello@dify.ai"
         volumeMounts:
-        - name: weaviate-data
-          mountPath: /var/lib/weaviate
+        - name: persistent-storage
+          mountPath: /data
 
 ---
 apiVersion: v1
@@ -691,8 +694,9 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
       volumes:
-      - name: dify-api-storage
-        emptyDir: {}
+      - name: persistent-storage
+        persistentvolumeClaim:
+          claimName: efs-claim
       containers:
       - name: dify-api
         image: langgenius/dify-api:0.14.1
@@ -847,8 +851,8 @@ spec:
         - containerPort: 5001
         imagePullPolicy: IfNotPresent
         volumeMounts:
-        - name: dify-api-storage
-          mountPath: /app/api/storage
+        - name: persistent-storage
+          mountPath: /data
 ---
 apiVersion: v1
 kind: Service
@@ -890,8 +894,9 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
       volumes:
-      - name: dify-api-storage
-        emptyDir: {}
+      - name: persistent-storage
+        persistentvolumeClaim:
+          claimName: efs-claim
       containers:
       - name: dify-worker
         image: langgenius/dify-api:0.14.1
@@ -1013,8 +1018,8 @@ spec:
             cpu: 1000m
             memory: 2Gi
         volumeMounts:
-        - name: dify-api-storage
-          mountPath: /app/api/storage
+        - name: persistent-storage
+          mountPath: /data
         imagePullPolicy: IfNotPresent
       restartPolicy: Always
 
